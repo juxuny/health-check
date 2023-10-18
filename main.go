@@ -91,6 +91,7 @@ func main() {
 		}
 		if code/100 != 2 {
 			log.Info("fail, code: " + fmt.Sprint(code))
+			time.Sleep(time.Second * 3)
 		} else {
 			log.Info("success")
 			break
