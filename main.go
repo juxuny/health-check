@@ -66,9 +66,9 @@ func request(ctx context.Context, url string) (code int, err error) {
 	if err != nil {
 		return
 	}
-	defer func () {
+	defer func() {
 		_ = resp.Body.Close()
-	} ()
+	}()
 	_, _ = io.ReadAll(resp.Body)
 	return resp.StatusCode, nil
 }
@@ -91,7 +91,7 @@ func main() {
 		}
 		code, err := request(ctx, url)
 		if err != nil {
-			log.Error(err)
+			log.Error("io error:", err)
 			time.Sleep(time.Second * 3)
 			continue
 		}
