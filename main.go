@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 	"strconv"
@@ -65,6 +66,10 @@ func request(ctx context.Context, url string) (code int, err error) {
 	if err != nil {
 		return
 	}
+	defer func () {
+		_ = resp.Body.Close()
+	} ()
+	_, _ = io.ReadAll(resp.Body)
 	return resp.StatusCode, nil
 }
 
@@ -87,6 +92,7 @@ func main() {
 		code, err := request(ctx, url)
 		if err != nil {
 			log.Error(err)
+			time.Sleep(time.Second * 3)
 			continue
 		}
 		if code/100 != 2 {
